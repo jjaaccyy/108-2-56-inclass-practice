@@ -6,6 +6,31 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## package
+
+```{r}
+library(googlesheets4)
+library(dplyr)
+library(lubridate)
+```
+##creat object
+
+```{r}
+a <- 2
+
+```
+
+```{r}
+a
+```
+```{r}
+b <- 1
+```
+
+```{r}
+b
+```
+
 
 ## R Markdown
 
