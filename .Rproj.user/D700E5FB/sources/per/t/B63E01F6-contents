@@ -81,11 +81,6 @@ homework_sheet <- sheets_read(ss,sheet=1)
 ```
 
 ```{r}
-
-```
-
-
-```{r}
 my_108_total_credits <- 15
 _108_total_credits <- 15
 108_total_credits <- 15
