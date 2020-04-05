@@ -52,7 +52,8 @@ with_tz(pgDateTime, tzone="Europe/Paris")
 ymd_hms("2020-03-04T06:56:29Z",tz="Asia/Taipei") ##有T...Z不用寫tz=
 ```
 ```{r}
-with_tz(ymd_hms("2020-03-04T06:56:29Z"),tz="Asia/Taipei")
+
+
 
 utcTime <- ymd_hms("2020-03-04T06:56:29Z")
 with_tz(utcTime,tz="Asia/Taipei")
