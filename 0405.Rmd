@@ -1,0 +1,89 @@
+---
+title: '0405'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Classtype conversion
+
+```{r}
+stringInteger <- c("1","2","-11")
+class(stringInteger) # 無法進行數值運算
+numericInteger <- as.integer(stringInteger)
+numericInteger+2
+```
+```{r}
+studentId <- c(410773002, 410773015)
+studentId <- as.character(studentId) ##要用物件本身名稱回存
+```
+##DateTime
+
+```{r}
+browseURL("https://docs.google.com/spreadsheets/d/1EAG49qDKPWWi0ebkVr29TLrvVnoBPfkvxYY-J3xLAHY/edit#gid=458686645")
+```
+```{r}
+library(lubridate)
+```
+台北 2020-03-18 13:52:40
+```{r}
+tpeDateTime <- ymd_hms("2020-03-18 13:52:40",tz="Asia/Taipei")
+tpeDateTime
+class(tpeDateTime)
+typeof(tpeDateTime)
+as.double(tpeDateTime)
+```
+葡萄牙 Mar.18, 2020, 05:52:40
+```{r}
+pgDateTime <- mdy_hms("Mar.18, 2020, 05:52:40",tz="Europe/Lisbon")
+pgDateTime
+as.double(pgDateTime)
+```
+```{r}
+with_tz(tpeDateTime, tzone="UTC")
+with_tz(pgDateTime, tzone="UTC")
+```
+```{r}
+with_tz(tpeDateTime, tzone="Europe/Paris")
+with_tz(pgDateTime, tzone="Europe/Paris")
+```
+```{r}
+ymd_hms("2020-03-04T06:56:29Z",tz="Asia/Taipei") ##有T...Z不用寫tz=
+```
+```{r}
+with_tz(ymd_hms("2020-03-04T06:56:29Z"),tz="Asia/Taipei")
+
+utcTime <- ymd_hms("2020-03-04T06:56:29Z")
+with_tz(utcTime,tz="Asia/Taipei")
+##以上兩種寫發均可以
+```
+## practice
+```{r}
+studentTime<-c(
+  ymd_hms("2020-03-11T07:20:21Z"),
+  ymd_hms("2020-03-11 16:06:45",tz="Asia/Taipei"),
+  ymd_hms("2020-03-11 16:06:45",tz="Asia/Taipei"))
+studentTime
+```
+```{r}
+with_tz(studentTime,tz="Europe/Paris")
+```
+
+
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
