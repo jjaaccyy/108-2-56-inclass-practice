@@ -1,0 +1,7 @@
+"0","num_fiveReceipts <- as.character(fiveReceipts)"
+"0","sum_fiveReceipts <- sum(as.integer(num_fiveReceipts))"
+"0","sum_fiveReceipts"
+"1","[1]"
+"1"," 18"
+"1","
+"

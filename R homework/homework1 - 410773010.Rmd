@@ -91,7 +91,7 @@ List of 2
 其中approve（核準狀況，logics class），course_info(課程資訊), coursename(課名), type（類別，必/選/通）, credits（學分數, numeric class）, time_place（上課時地）, weekday（星期）, time_slots（節次, numeric class）, classroom（教室）的意思如（）內容所示。
 
 ```{r ans31}
-course <- list(approve=T,"course_info"=
+course <- list(approve=T,course_info=
                 list(coursename="會計學",type="必",credits=3,time_place=list(list(
                    weekday="星期三",time_slots=c(7,8,9),classroom="商2F05"
                  ))))
@@ -107,7 +107,7 @@ str(course)
 你要怎麼修改你的course物件內容讓裡頭的time_slots可以有兩個時段及地點，答案物件為courseUpdate。courseUpdate內容只有time_place與course不同，其餘元素值維持與course相同內容。
 
 ```{r ans32}
-courseUpdate <- list(approve=T,"course_info"=
+courseUpdate <- list(approve=T,course_info=
                 list(coursename="會計學",type="必",credits=3,time_place=list(list(
                    weekday=c("星期三","星期二"),time_slots=list(c(7,8,9),5),
                    classroom="商2F05"
@@ -144,9 +144,9 @@ List of 2
 可用str(accidents)來檢查你的答案是否有符合格式。
 ```{r ans33}
 accidents <-
-  list("time"= ymd("2014-01-01"),"bureaus"=list(
-    "板橋分局"=list("type"="駕駛人過失-超速失控_含未減速","casualties"=0),
-    "海山分局"=list("type"="駕駛人過失-酒後駕車","casualties"=0)))
+  list(time= ymd("2014-01-01"),bureaus=list(
+    `板橋分局`=list(type="駕駛人過失-超速失控_含未減速",casualties=0),
+    `海山分局`=list(type="駕駛人過失-酒後駕車",casualties=0)))
 str(accidents)
 
 
@@ -205,18 +205,20 @@ source("https://www.dropbox.com/s/xtge2ghfb7dhple/108-2-hw1-4.R?dl=1")
   * 找出有錯誤的行，直接把它更正，更正時不要隨意斷句徒增新行。
 
 ```{r ans5c, eval=F}
+library(lubridate)
+
 yy <- "2020"
 mm <- "Mar"
 dd <- "15"
 event_list <- list(
-  "time"=ymd(paste(yy,mm,dd,sep = ".")),
+  time =ymd(paste0(yy,mm,dd)),
   list(
-    "name"="小明",
-    "是否完成"=True,
-    "完成所花時間(秒)"=350,
-    "tools"=c(
+    name="小明",
+    `是否完成`=T,
+    `完成所花時間(秒)`=350,
+    tools=c(
       "anchor","axe")
-)
+))
 
 ```
 

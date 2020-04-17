@@ -1,0 +1,233 @@
+---
+title: '0417'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##在前面討論使用$及[ ]取一個元素時我們創造了get1與get2兩個物件，請分別由get1, get2取出108-1學期個體經濟學教師姓名。
+
+```{r}
+listExample <- list(student="小明",`學期`=
+                      list(
+  `108-1`=list(
+    list(name="個體經濟學",teacher="Alice",grade=85)
+    
+  ),`108-2`=list(list(name="總體經濟學",teacher="Mark",grade=78))
+    
+  ))
+str(listExample)
+```
+```{r}
+get1 <- listExample[["學期"]]
+get1_layer1 <- get1$`108-1`
+get1_layer2 <- get1_layer1[[1]]
+get1_layer2$teacher
+
+get1$`108-1`[[1]]$teacher
+```
+```{r}
+get2 <- listExample["學期"]
+get2_layer1 <- get2[[1]]
+get2_layer2 <- get2_layer1$`108-1`
+get2_layer3 <- get2_layer2[[1]]
+get2_layer3$teacher
+
+get2[[1]]$`108-1`[[1]]$teacher
+```
+##Vector取名 只可用中括號，錢號不可用
+
+```{r}
+vector1 <- c(a=1,b=3,c=4)
+vector1[["a"]]
+vector1[c("a","c")]
+
+```
+```{r}
+today <- list(
+  list("台北市",c(highest_temp = 25),c(lowest_temp = 18)),
+  list("新北市",c(highest_temp = 24),c(lowest_temp = 15)))
+str(today)
+```
+```{r}
+today[[1]][[2]]
+```
+```{r}
+today <- list(
+  list("台北市",highest_temp=c(highest_temp = 25),lowest_temp=c(lowest_temp = 18)),
+  list("新北市",highest_temp=c(highest_temp = 24),lowest_temp=c(lowest_temp = 15)))
+str(today)
+```
+```{r}
+today[[1]][[2]]
+today[[1]]$highest_temp
+```
+##元素替換
+```{r}
+a <- c("1","b","TRUE")
+a
+a[[2]] <- "c" # 元素存在: 替換
+a[[4]] <- "7" # 元素不存在： 增加
+a
+a[c(5,6)] <- c("J", "K")
+a
+a[[7]] <- "Johnson"
+a <- c(a,c("Mary"))
+a
+```
+
+```{r}
+library(lubridate)
+list1 <- list(
+  
+    list(
+      name="Jack",
+      birthday=ymd("1998-03-21"),
+      status=c(height=177, weight=80)
+    
+  ))
+
+str(list1)
+```
+```{r}
+list1[[1]]$birthday <- ymd("1997-03-21")
+# 更改日期
+
+# 新增資料
+list1[[2]] <- list(
+  name="Mary",
+  birthday=ymd("1998-08-24")
+)
+
+str(list1)
+```
+```{r}
+list1[[1]][["age"]] <- 21
+list1[[2]]["age"] <- list(21)
+
+# 改變「一個」時，使用[[ ]]比較不會錯。
+str(list1)
+```
+```{r}
+list1[[1]][c("bloodType","registered")] <- list("AB",TRUE)
+
+str(list1)
+```
+```{r}
+list1[[2]]$status <- c(height=163, weight=45)
+list1[[1]]$status[["height"]] <- 176
+str(list1)
+```
+
+
+##practice
+
+```{r}
+listExample <- 
+  list(
+    student="小明",
+    `學期`=list(
+      `108-1`=list(
+        list(
+          name="個體經濟學",
+          teacher="Alice",
+          grade=85
+        )
+      ),
+      `108-2`=list(
+        list(
+          name="總體經濟學",
+          teacher="Mark",
+          grade=78
+        )
+      )
+    )
+  )
+str(listExample)
+# 有多少位置可選：
+length(listExample)
+```
+
+```{r}
+
+listExample$學期$`108-1`[[2]] <-
+  list(name="產業經濟學")
+str(listExample)
+
+listExample$學期$`108-1`[[2]][c("teacher","grade")] <- 
+  list(
+    "Wen",
+    88
+    )
+str(listExample)
+```
+
+##刪除
+```{r}
+print(a)
+a[-c(1,3)]
+a[c(-2)]
+
+
+print(a)
+a[-c(1,3)] -> a # 要回存才算真的刪除
+```
+```{r}
+library(lubridate)
+list1 <- 
+  list(
+    list(
+      name="Jack",
+      birthday=ymd("1998-03-21"),
+      status=c(height=177, weight=80)
+    ),
+    list(
+      name="Mary",
+      birthday=ymd("1998-08-24"),
+      status=c(height=163, weight=45),
+      age=21,
+      bloodType="AB"
+    )
+  )
+str(list1)
+```
+
+```{r}
+list1[[1]][-c(3)] <- list1[[1]]
+str(list1)
+```
+```{r}
+str(list1)
+list1[[2]][c(1,2)] <- NULL
+list1[[2]][c(1,2)] <- list1[[2]]
+str(list1)
+```
+```{r}
+library(jsonlite)
+fromJSON("https://data.ntpc.gov.tw/od/data/api/54DDDC93-589C-4858-9C95-18B2046CC1FC?$format=json", simplifyDataFrame = F) -> newTaipeiYouBike
+```
+```{r}
+newTaipeiYouBike[[1]][c(1,2,3,5,6,8,9,0,11,12,13)] <- NULL
+str(newTaipeiYouBike[[1]])
+```
+
+
+
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
