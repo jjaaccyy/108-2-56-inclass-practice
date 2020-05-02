@@ -1,0 +1,12 @@
+"0","poem_song[[136]] <- poem_new"
+"2","Warning message:
+"
+"2","In strsplit(code, ""\n"", fixed = TRUE) :"
+"2","
+ "
+"2"," input string 1 is invalid in this locale
+"
+"0","poem[[136]] <- list(author=""胡宿"",paragraphs=c(""南方朱鳥司時令，東闕蒼龍護禁扉。"",""萬壽御觴端日舉，祥風三殿繞雲旂。""),title=""皇帝閤端午帖子  其一○"",id=""b9cdc1e8-088f-4366-a708-12057588cc8c"")"
+"2","Error in poem[[136]] <- list(author = ""胡宿"", paragraphs = c(""南方朱鳥司時令，東闕蒼龍護禁扉。"",  : 
+  object 'poem' not found
+"

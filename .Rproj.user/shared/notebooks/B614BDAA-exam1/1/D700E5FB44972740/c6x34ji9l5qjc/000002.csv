@@ -1,0 +1,15 @@
+"0","a <- ""我叫"""
+"2","Warning message:
+"
+"2","In strsplit(code, ""\n"", fixed = TRUE) :"
+"2","
+ "
+"2"," input string 1 is invalid in this locale
+"
+"0","b <- c(""小明"",""阿美"")"
+"0","paste0(a,b)"
+"1","[1]"
+"1"," ""我叫小明"""
+"1"," ""我叫阿美"""
+"1","
+"

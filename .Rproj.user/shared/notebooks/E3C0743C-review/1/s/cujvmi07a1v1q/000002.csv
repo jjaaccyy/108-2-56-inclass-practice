@@ -1,0 +1,8 @@
+"0","twoTimes <- c(ymd_hms(TpeTime,tz=""Asia/Taipei""),ymd_hms(PTime,tz=""Europe/Lisbon""))"
+"0","with_tz(twoTimes,tz=""UTC"") -> twoTimes"
+"0","twoTimes"
+"1","[1]"
+"1"," ""2020-03-18 05:52:40 UTC"""
+"1"," ""2020-03-18 05:52:40 UTC"""
+"1","
+"
