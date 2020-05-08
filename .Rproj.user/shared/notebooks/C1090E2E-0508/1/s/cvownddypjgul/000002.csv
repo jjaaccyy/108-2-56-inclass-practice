@@ -1,0 +1,6 @@
+"0","library(htmlwidgets)
+"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"

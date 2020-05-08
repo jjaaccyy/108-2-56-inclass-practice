@@ -1,0 +1,21 @@
+"0","install.packages(""htmlwidgets"")
+"
+"2","Installing package into ¡¥C:/Users/user/Documents/R/win-library/3.6¡¦
+(as ¡¥lib¡¦ is unspecified)
+"
+"2","trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.6/htmlwidgets_1.5.1.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 809964 bytes (790 KB)
+"
+"2","downloaded 790 KB
+
+"
+"1","package â€˜htmlwidgetsâ€™ successfully unpacked and MD5 sums checked
+"
+"1","
+"
+"1","The downloaded binary packages are in
+	C:\Users\user\AppData\Local\Temp\RtmpCkm0Fa\downloaded_packages"
+"1","
+"
