@@ -258,6 +258,36 @@ levels(covid19$性別)
 levels(covid19$性別) <- c("Male","Female")
 covid19$性別
 ```
+```{r}
+jsonlite::fromJSON("https://data.ntpc.gov.tw/od/data/api/EDC3AD26-8AE7-4916-A00B-BC6048D19BF8?$format=json") ->
+  garbageRoutes
+str(garbageRoutes)
+```
+```{r}
+factor(garbageRoutes$linename) -> linenamefactor
+factor(stringr::str_extract(garbageRoutes$linename,"[:graph:]+路線")) -> garbageRoutes$route
+levels(garbageRoutes$route)
+
+```
+
+```{r}
+table(garbageRoutes$route) -> tableroute
+sort(tableroute) -> sortroute
+names(sortroute)-> namesroute
+garbageRoutes$route <- factor(garbageRoutes$route,namesroute)
+levels(garbageRoutes$route)
+```
+```{r}
+garbageRoutes$time <- stringr::str_extract(garbageRoutes$linename,"(?<=路線)[:graph:]+"
+                                                  )
+
+                             
+"全天" -> garbageRoutes$time[is.na(garbageRoutes$time)]
+garbageRoutes$time <- factor(garbageRoutes$time)
+levels(garbageRoutes$time)
+levels(garbageRoutes$time)[[3]] <- c("下午")
+
+```
 
 
 
