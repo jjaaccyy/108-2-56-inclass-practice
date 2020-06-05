@@ -1,0 +1,12 @@
+"0","myDemand(1.2) # 無法運作
+"
+"2","Error in myDemand(1.2) : object 'intercept' not found
+"
+"2","In addition: "
+"2","Warning message:
+"
+"2","In strsplit(code, ""\n"", fixed = TRUE) :"
+"2","
+ "
+"2"," input string 1 is invalid in this locale
+"

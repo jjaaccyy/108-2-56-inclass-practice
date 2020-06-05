@@ -1,0 +1,170 @@
+---
+title: '0605'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+demand <- # 創造一個物件叫demand
+  function(p){ # 定義這個物件為函數
+    q_d <- 10-5*p # 小心是5*p, 不能寫5p
+  }
+demand(1.2)
+demand_return <- 
+  function(p){
+    q_d <- 10-5*p
+    return(q_d)
+  }
+# 印在螢幕，但Global Environment並不會有q_d
+demand_return(1.2) -> q_d1.2
+```
+
+```{r}
+supply <- function(p){q_s <- 0+2*p
+return(q_s)}
+supply(1)
+
+```
+```{r}
+jsonlite::fromJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON") ->
+  weather_next36hours
+```
+```{r}
+dateInput <- lubridate::today()
+locationInput <- "新北市"
+# 找出符合地點的天氣資訊：weatherAtLocation
+(weather_next36hours$cwbopendata$dataset$location$locationName == locationInput) -> pick_location # 可挑出locationInput的「要/不要」向量
+
+weather_next36hours$cwbopendata$dataset$location$weatherElement[pick_location][[1]] -> weatherAtLocation
+
+# 在weatherAtLocation找出符合時間的天氣資訊
+
+(weatherAtLocation$elementName=="MaxT") ->
+  pick_MaxT
+(weatherAtLocation$elementName=="MinT") ->
+  pick_MinT
+weatherAtLocation$time[pick_MaxT][[1]]$parameter$parameterName[[1]] -> maxT
+weatherAtLocation$time[pick_MinT][[1]]$parameter$parameterName[[1]] -> minT
+
+glue::glue("{locationInput} {dateInput} 氣溫，最高{maxT}度，最低{minT}度。")
+```
+```{r}
+askSilly_weather <- function(locationInput,dateInput){
+  jsonlite::fromJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-C0032-001?Authorization=rdec-key-123-45678-011121314&format=JSON") ->
+  weather_next36hours
+  
+  (weather_next36hours$cwbopendata$dataset$location$locationName == locationInput) -> pick_location
+  
+  weather_next36hours$cwbopendata$dataset$location$weatherElement[pick_location][[1]] -> weatherAtLocation
+  (weatherAtLocation$elementName=="MaxT") ->
+    pick_MaxT
+  (weatherAtLocation$elementName=="MinT") ->
+    pick_MinT
+  weatherAtLocation$time[pick_MaxT][[1]]$parameter$parameterName[[1]] -> maxT
+  weatherAtLocation$time[pick_MinT][[1]]$parameter$parameterName[[1]] -> minT
+  
+  glue::glue("{locationInput} {dateInput} 氣溫，最高{maxT}度，最低{minT}度。")
+}
+askSilly_weather("臺中市",lubridate::today())
+askSilly_weather("花蓮縣",today())
+```
+```{r}
+library(lubridate)
+location <- "Europe/Paris"
+what_time_it_is <- function(location){times <- with_tz(now(),tz="Europe/Paris")
+return(times)}
+what_time_it_is(location)
+
+library(lubridate)
+
+what_time_it_is<-function(timezone){
+now<-with_tz(now(),tz=timezone)
+return(now)}
+
+what_time_it_is("Europe/Paris")
+```
+```{r}
+# 查詢函數formals arguments要求
+formals(askSilly_weather)
+body(askSilly_weather)
+```
+
+```{r}
+typeof(demand_return)
+# 查詢函數執行所要求環境
+environment(demand_return)
+# 若函數執行需要Global environment已存在某些物件，查詢需要哪些物件
+codetools::findGlobals(demand_return)
+```
+
+```{r}
+intercept <- 10
+slope <- -5
+myDemand <- function(p){
+  q_d <- intercept + slope*p
+  return(q_d)
+}
+environment(demand_return)
+environment(myDemand)
+codetools::findGlobals(demand_return)
+codetools::findGlobals(myDemand) 
+
+# myDemand對Global environment的要求多了intercept及slope
+```
+```{r}
+# 移除global environment裡的intercept及slope
+rm(intercept, slope)
+demand_return(1.2) # 維持正常運作
+myDemand(1.2) # 無法運作
+```
+
+```{r}
+intercept <- 10
+slope <- -5
+myDemand(1.2)
+```
+```{r}
+myDemand2 <- function(p, intercept=10, slope=-5){
+  q_d <- intercept + slope*p
+  return(q_d)
+}
+environment(myDemand2)
+codetools::findGlobals(myDemand2) # 不依靠global env裡的intercept/slope
+myDemand2(1.2)
+myDemand2(1.2, slope=-1)
+myDemand2(1.2, intercept=5, slope=-1.2)
+```
+```{r}
+jsonlite::fromJSON("https://data.ntpc.gov.tw/api/datasets/07F7CCB3-ED00-43C4-966D-08E9DAB24E95/json/preview") -> busArrivalForecast # 公車預估到站時間 https://data.ntpc.gov.tw/datasets/07F7CCB3-ED00-43C4-966D-08E9DAB24E95
+
+jsonlite::fromJSON("https://data.ntpc.gov.tw/api/datasets/0EE4E6BF-CEE6-4EC8-8FE1-71F544015127/json/preview") -> busRoutes # 公車路線清單 https://data.ntpc.gov.tw/datasets/0EE4E6BF-CEE6-4EC8-8FE1-71F544015127
+
+jsonlite::fromJSON("https://data.ntpc.gov.tw/api/datasets/34B402A8-53D9-483D-9406-24A682C2D6DC/json/preview") -> busStopsInfo # 公車站位資訊 https://data.ntpc.gov.tw/datasets/34B402A8-53D9-483D-9406-24A682C2D6DC
+```
+```{r}
+when_busArrives <- 
+
+
+
+
+when_busArrives("916","臺北大學正門")
+```
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -1,0 +1,13 @@
+"0","regex_hsTitle <- ""(高?級?中?學?)$"""
+"2","Warning message:
+"
+"2","In strsplit(code, ""\n"", fixed = TRUE) :"
+"2","
+ "
+"2"," input string 1 is invalid in this locale
+"
+"0","regex_hsTitle"
+"1","[1]"
+"1"," ""(高?級?中?學?)$"""
+"1","
+"

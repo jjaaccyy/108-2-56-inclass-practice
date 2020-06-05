@@ -59,6 +59,10 @@ semiGodsSemiDevils$data[[1]]$section == "P2" -> pick_2
 semiGodsSemiDevils$data[[1]]$text[pick_2] -> context_picked
 
 context_picked
+
+semiGodsSemiDevils$data[[1]]$section -> sections
+pick_p2 <- sections == "P2"
+semiGodsSemiDevils$data[[1]]$text[pick_p2] -> context_picked
 ```
 
 ### 2.2
@@ -80,6 +84,8 @@ str_split(context_picked,paste0("\\s","\\s")) -> context_picked_split
 str(context_picked_split)
 
 context_picked_split
+
+
 ```
 
 ### 2.3
@@ -94,6 +100,12 @@ class(mention_duan)
 str_view_all(context_picked_split[[1]],pattern2)
 
 mention_duan
+
+pattern <- "姓?段(譽|兄|兄弟|大哥|公子|相公|君|的小子)(?!弟)"
+str_extract_all(context_picked_split[[1]], pattern = pattern) -> mention_duan
+
+mention_duan
+
 ```
 
 ### 2.4
@@ -102,6 +114,7 @@ mention_duan
 
 
 unlist(mention_duan) -> duan_number
+class(duan_number)
 table(duan_number) -> table_duan
 
 class(table_duan)

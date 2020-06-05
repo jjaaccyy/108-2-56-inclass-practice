@@ -1,0 +1,192 @@
+---
+title: "review2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+example <- list(
+  name=c("小明","小花","小新","美美"),
+  height=c(175,166,170,160),
+  weight=c(77,NA,60,43),
+  birthday=lubridate::ymd(c("1998-03-11","1999-12-22","1995-08-22","2001-10-10")),
+  hobby=c("美食 旅遊","旅遊 時尚","3C 美食","音樂 旅遊"),
+  residence=c("Taipei","New Taipei","Taichung","Kaohsiung"),
+  allowance=factor(c("0-1000","1001-2000","2000+","1001-2000")),
+  bloodType=c("A","B","B","O")
+)
+```
+
+```{r}
+source("https://www.dropbox.com/s/qsrw069n94k61lj/transcript100to103_list.R?dl=1")
+```
+```{r}
+str(transcript100to103)
+# 各學屆2年級人數
+table(transcript100to103$`學屆`)
+class(transcript100to103$學屆)
+# 各學屆2年級成績大於85年數
+table(transcript100to103$`學屆`[pick_above85])
+```
+```{r}
+jsonlite::fromJSON("https://www.dropbox.com/s/3uijub7xheib405/list_victimAges_female.json?dl=1", simplifyDataFrame = F) -> list_victimAges_female
+```
+```{r}
+list_victimAges_female$`年齡層` <- factor(list_victimAges_female$`年齡層`)
+levels(list_victimAges_female$`年齡層`) -> levels_ages
+print(levels_ages)
+levels_new <- c(levels_ages[c(12,13,1,8,2:7,9:11)])
+levels(list_victimAges_female$`年齡層`) <- levels_new
+levels_new
+```
+```{r}
+print(example[c("name","hobby")])
+
+pick_loveFood <- stringr::str_detect(example$hobby,"美食")
+pick_loveFood
+example$name[pick_loveFood]
+pick_loveFood <- example$hobby == "美食"
+pick_loveFood
+```
+```{r}
+fruit <- c("apple", "banana", "pear", "pinapple")
+str_detect(fruit, "a")
+str_detect(fruit, "^a")
+str_detect(fruit, "a$")
+str_detect(fruit, "b")
+str_detect(fruit, "[aeiou]")
+
+# Also vectorised over pattern
+str_detect("aecfg", letters)
+
+# Returns TRUE if the pattern do NOT match
+str_detect(fruit, "^p", negate = TRUE)
+```
+```{r}
+'大學號151號' -> road
+stringr::str_extract(road,"[0-9]+(?=號)")
+heartSutra <- c("舍利子，色不異空，空不異色；色即是空，空即是色。")
+str_view_all(heartSutra,"色") # 檢視
+str_count(heartSutra,"色") # 計數
+
+Ids <- c("A283743192","B829103720","A10920402","C291022384")
+
+str_view_all(Ids, "[AC]")
+str_detect(Ids, "[AC]") # 偵測 出現A、C
+
+str_extract(Ids,"[A-Z]") # 取出 A-Z的字元
+```
+```{r}
+headline <- "資科系的謝陳官乃飛鳶書院三大名師，其中謝無雙的策略運算，陳大器的數理資科學，及官求敗的運算成本更是打通演算思維任督二脈的三大好課。書院目前有陳一、陳二、陳三四這三名學生。"
+```
+```{r}
+# 顯示所有符合規則的
+str_view_all(headline, "謝陳官") # 固定字組
+str_count(headline,"謝陳官")
+
+str_view_all(headline, "[謝陳官]") # 有1個strip: 出象有3個可能字元 
+str_count(headline, "[謝陳官]")
+
+str_view_all(headline, "謝無雙|官求敗") # 有1個strip，出象有2個字組 
+str_count(headline, "謝無雙|官求敗")
+
+str_view_all(headline, "陳[^官]") # 固定字元＋有1個strip： 出象為排官的字元
+str_count(headline, "陳[^官]")
+```
+```{r}
+strip1 <- "[0-9]"
+strip2 <- "(櫻桃|777|紅心)" # 字群組合strip因為等下放中間所以用()括起來
+strip3 <- "[A-Z]"
+myRegexSlotMachine <- paste0(strip1,strip2,strip3)
+print(myRegexSlotMachine)
+claimA <- "我得到A檸檬99"
+claimB <- "我的是7777Z"
+claimC <- "我玩了兩次，一次是7蘋果H，另一次是5紅心J"
+# 顯示吻合的出象
+str_view(
+  c(claimA,claimB,claimC),
+  pattern=myRegexSlotMachine
+)
+# 是否有吻合的出象
+str_detect(
+  c(claimA,claimB,claimC),
+  pattern=myRegexSlotMachine
+)
+
+addresses <- c(
+  '臺中市后里區公館里尾社路385號',
+  '新竹市東區科學園路125號1樓'
+  )
+stringr::str_extract(addresses,"[0-9]+號")
+```
+```{r}
+c(
+  "https://github.com/student1/108-2-78-inclass-practice", 
+  "github.com/student2 / 108-2-56-inclass-practice", 
+  "https://github.com/student3/108-2-56-inclass-practice",
+  "student4 / 108-2-56-inclass-practice",
+  "student5") -> studentGithubURLs
+str_detect(studentGithubURLs,"https://github.com/[:graph:]+/108-2-(56|78)-inclass-practice") -> log
+studentGithubURLs[!log]
+```
+```{r}
+midtermFilename <- 
+  c("exam1-410773888.rmd",
+    "exam1410882888.Rmd",
+    "410682999第一次期中考.Rmd",
+    "期中考310573888.R")
+
+stringr::str_extract(midtermFilename,"exam1?exam1-?期中考?[0-9]+")
+```
+```{r}
+phrase <- c("唧唧复唧唧")
+stringr::str_view_all(phrase,"唧[^唧]")
+```
+```{r}
+jsonlite::fromJSON("https://od.cdc.gov.tw/eic/Day_Confirmation_Age_County_Gender_19CoV.json") -> covid19
+```
+```{r}
+str(covid19$`年齡層`)
+factor(covid19$`年齡層`,ordered=T )-> covid19$`年齡層`
+starting <- seq(5,55,by=10)
+ending <- seq(14,64,by=10)
+rep(paste0(starting,"-",ending),each=2) -> double
+level_new <- c("4",double,"65+","65+")
+levels(covid19$`年齡層`) <- level_new
+
+covid19$`年齡層`
+```
+```{r}
+jsonlite::fromJSON("https://data.ntpc.gov.tw/api/datasets/EDC3AD26-8AE7-4916-A00B-BC6048D19BF8/json") ->
+  garbageRoutes
+```
+##1在garbageRoutes新增route元素，其元素值為對應garbageRoutes$linename裡粹取出的“XXX路線”字眼，如原本“A11路線(一、四)下午”的linename, 它的route值為“A11路線” 。（garbageRoutes$route為factor class)
+
+#2請設定garbageRoutes$route的levels依其路線停靠總站數由小排到大陳列。
+
+#3linename的“路線”字眼後面接的是營運時間，如“A11路線(一、四)下午”的linename, 它的營運時間為“(一、四)下午”。若沒寫時間的路線，它的營運時間為“全天”。請在garbageRoutes新增time元素，其元素值為對應linename所隱含的營運時間。（garbageRoutes$time為factor class, levels會有“(一、四)下午”, “下午”, “下午(1.4版)”, “晚上”, 及“全天”）
+
+#4將garbageRoutes$time的levels中的“下午(1.4版)”改成“下午”。
+```{r}
+stringr::str_extract(garbageRoutes$linename,"[:graph:]+路線") -> routed
+garbageRoutes$route <- factor(routed)
+garbageRoutes$route
+```
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

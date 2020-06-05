@@ -1,0 +1,10 @@
+"0","levels(tpe_highSchools) <- c(levels(tpe_highSchools),""北一女"")"
+"2","Warning message:
+"
+"2","In strsplit(code, ""\n"", fixed = TRUE) :"
+"2","
+ "
+"2"," input string 1 is invalid in this locale
+"
+"0","tpe_highSchools[680:689] <- rep(""北一女"",10)"
+"0","#tpe_highSchools"

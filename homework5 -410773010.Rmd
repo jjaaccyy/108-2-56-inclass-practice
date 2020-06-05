@@ -55,17 +55,28 @@ studentHeights$`年齡` <- factor(studentHeights$`年齡`,levelsold)
 studentHeights$`學年度`
 
 studentHeights
+
+studentHeights$`學年度` <- factor(
+  studentHeights$`學年度`, ordered = T
+)
+studentHeights$`學年度`
+
+studentHeights$`年齡` <- as.integer(studentHeights$`年齡`)
+studentHeights$`年齡` <- factor(
+  studentHeights$`年齡`, ordered = T
+)
+studentHeights$`年齡`
+studentHeights$`學年度`
 ```
 
 ### 1.2 年齡層
 請在studentHeights新增「年齡層」元素（class ordered factor），其類別排序為6-8 < 9-12 < 13-15三類年齡層。
 ```{r ans12}
-factor(studentHeights$`年齡層`,ordered=T) -> studentHeights$`年齡層`
-levels(studentHeights$`年齡層`) -> oldlevel
-oldlevel
-str_extract(oldlevel,"^[0-9]+") -> levelsolded
+factor(studentHeights$`年齡層`,ordered=T) %>%
+levels(.) %>%
+str_extract(.,"^[0-9]+") %>%
 
-as.integer(levelsolded) -> levelsolded
+as.integer(.) %>%
 
 names(levelsolded) <- oldlevel
 
@@ -73,7 +84,18 @@ sort(levelsolded) -> levelsolded
 
 studentHeights$`年齡層` <- factor(studentHeights$`年齡層`,names(levelsolded))
 
-studentHeights$`年齡層`
+levels(studentHeights$`年齡層`)
+
+
+studentHeights$年齡層 <- 
+  factor(studentHeights$年齡, ordered=T)
+
+levels(studentHeights$年齡層) <-
+  c(
+    rep("6-8",3),
+    rep("9-12",4),
+    rep("13-15",3)
+  )
 ```
 
 ### 1.3 各年齡層平均身高
@@ -127,7 +149,12 @@ jsonlite::fromJSON("https://www.dropbox.com/s/bp0w8tjgrhi79x7/sameMajorDifferent
 realEstateRegex <- "不[:graph:]+系"
 
 
-realEstateRegex
+print(realEstateRegex)
+
+realEstateRegex <- "不動(產)?與?(城鄉)?(環境)?學?系"
+# 這裡也可以偷懶不細分字群，而把所有的字「元」都加? 除了一定要出現的字「元」才不加，即
+realEstateRegex <-
+  "不動產?與?城?鄉?環?境?學?系"
 ```
 
 使得執行以下程序後differentMajors裡屬「不動產與城鄉環境學系（不管何種寫法）」的都會變成"不動系"。這裡regex還有一個限制考驗，就是：「不動產與城鄉環境學系」的十個字都只會出現一次（所以不能寫"(不動系|不動產系|...)"之類的——不、動、系三字出現二次，違規）。(hint: 這題使用regex quantifier裡的`?`會容易很多)
@@ -155,6 +182,14 @@ currentLevels
 
 ```{r ans23}
 bSchoolRegex <- "休[:graph:]+系|金[:graph:]+系"
+
+
+bSchoolRegex <- 
+  "(金融(與合作)?(經營)?|休(閒與)?運(動管理)?)學?系"
+# 或偷懶
+bSchoolRegex <- 
+  "(金融與?合?作?經?營?|休閒?與?運動?管?理?)學?系"
+
 
 
 bSchoolRegex
@@ -192,7 +227,48 @@ regex_pub <- "公[:graph:]+系"
 str_replace(currentLevels,regex_pub,"公行系")-> newlevels
 
 levels(differentMajors) <- newlevels
+newlevels
 
+levels(differentMajors) -> currentLevels
+currentLevels
+str_replace(
+  currentLevels,
+  "不動(產)?與?(城鄉)?(環境)?學?系",
+  "不動系"
+) -> currentLevels
+str_replace(
+  currentLevels,
+  "休閒?與?運?動?管?理?學?系",
+  "休運系"
+) -> currentLevels
+str_replace(
+  currentLevels,
+  "公共?行?政?暨?政?策?學?系",
+  "公行系"
+) -> currentLevels
+str_replace(
+  currentLevels,
+  "金融?與?合?作?經?營?學?系",
+  "金融系"
+) -> currentLevels
+str_replace(
+  currentLevels,
+  "社會學?系",
+  "社會系"
+) -> currentLevels
+str_replace(
+  currentLevels,
+  "經濟學?系",
+  "經濟系"
+) -> currentLevels
+str_replace(
+  currentLevels,
+  "社會工作學系",
+  "社工系"
+) -> currentLevels
+
+levels(differentMajors) <-  currentLevels
+currentLevels
 
 differentMajors
 ```
@@ -223,6 +299,24 @@ str_replace(newlevels,regex_public,"公共事務學院") -> truelevels
 
 levels(school) <- truelevels
 
+truelevels
+
+school <- differentMajors
+levels(school) -> currentLevels
+str_replace(
+  currentLevels,
+  "(休運|金融)系", "商學院"
+) -> currentLevels
+str_replace(
+  currentLevels,
+  "(經濟|社會|社工)系", "社科院"
+) -> currentLevels
+str_replace(
+  currentLevels,
+  "(公行|不動)系", "公共事務學院"
+) -> currentLevels
+
+levels(school) <- currentLevels
 
 school
 ```
