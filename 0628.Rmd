@@ -1,0 +1,88 @@
+---
+title: "0628"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+myAnswer <- c(2,3,6)
+correctAnswer <- c(2,3,5)
+
+if(myAnswer == correctAnswer){ # 只取用第一個T/F
+  print("你答對了")
+}
+```
+```{r}
+myAnswer <- c(2,3,6)
+correctAnswer <- c(2,3,5)
+
+if(all(myAnswer == correctAnswer)){ # 要全TRUE
+  print("你答對了")
+}
+
+
+```
+```{r}
+myAnswer <- c(2,3,6)
+correctAnswer <- c(2,3,5)
+correction <- function(myAnswer, correctAnswer){
+  if(all(myAnswer == correctAnswer)&class(myAnswer)==class(correctAnswer)){print("10分")}
+  else{print("0分")}
+  }
+  
+
+ 
+
+```
+
+```{r}
+list(
+  list("student A", c(2,3,4,5)),
+  list("student B", NA), # 沒交作業
+  list("student C", factor(c(2,3,4,5))),
+  list("student D", factor(c(2,3,5)))
+) -> collectionHWs
+
+correctAns <- factor(c(2,3,4,5))
+
+output <- vector("integer",length(collectionHWs))
+nameVector <- vector("character", length(collectionHWs))
+for(.x in seq_along(collectionHWs)){
+  nameVector[[.x]] <- collectionHWs[[.x]][[1]]
+  studentAns <- collectionHWs[[.x]][[2]] 
+  if(is.na(studentAns)){
+    output[[.x]] <- 0
+    next
+  } 
+  
+  # 改題部份
+  grade <- function(studentAns, correctAns){if(identical(studentAns, correctAns)){
+    output[[.x]] <- 10
+  } else if (class(studentAns)!=class(correctAns) && identical(as.character(studentAns),as.character(correctAns))) {
+    output[[.x]] <- 5
+  } else {
+    output[[.x]] <- 0
+  }
+}
+names(output) <- nameVector
+
+print(output)}
+```
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
