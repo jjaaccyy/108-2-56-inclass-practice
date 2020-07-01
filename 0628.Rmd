@@ -71,6 +71,18 @@ names(output) <- nameVector
 
 print(output)}
 ```
+```{r}
+output <- c()
+for (.x in 1:10) {new <- sample(0:100,1)
+if(new %% 3 == 0){output = c(output,new)}
+  
+}
+print(output)
+
+```
+```{r}
+
+```
 
 
 ```{r cars}
